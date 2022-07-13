@@ -7,7 +7,8 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    time.sleep(180)
+    #time.sleep(180)
+    #exec(open("hello.py").read())
     return {"message": "Hello World 180"}
 
 

@@ -1,1 +1,1 @@
-web: GUNICORN_CMD_ARGS="--timeout=0 --graceful-timeout=0 --keep-alive=0"  gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+web: GUNICORN_CMD_ARGS="--timeout=0 --graceful-timeout=0 --keep-alive=0"  gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --timeout=0 --graceful-timeout=0 --keep-alive=0

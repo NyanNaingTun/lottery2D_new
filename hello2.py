@@ -1,5 +1,10 @@
+import time
+
 import hello
 def func2():
+    f = open("text.txt", "a")
+    f.write("hello\n")
+    f.close()
     print("Function 2 is active")
 
 if __name__ == '__main__':

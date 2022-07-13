@@ -8,7 +8,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    #time.sleep(180)
+    time.sleep(180)
     return {"message": "Hello World "}
 
 

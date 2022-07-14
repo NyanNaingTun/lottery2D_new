@@ -7,7 +7,7 @@ from threading import Thread
 app = FastAPI()
 def thread_fun():
     os.system("venv\Scripts\python lottery_result.py")
-   os.system("python lottery_result.py")
+    os.system("python lottery_result.py")
 
 @app.get("/")
 async def root():

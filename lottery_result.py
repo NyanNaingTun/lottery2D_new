@@ -49,16 +49,17 @@ def viewdata():
     datetimeformat = "%d/%m/%Y %H:%M:%S"
     formatedstockdatetime = datetime.datetime.strptime(stockdatetime, datetimeformat)
     myanmarstocktime = formatedstockdatetime - datetime.timedelta(hours=0, minutes=30)
-    currentmyanmartime=datetime.datetime.now()
+    utctimezone=datetime.datetime.utcnow()
+    currentmyanmartime=utctimezone
     currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
 
     if(check_datetime==None):
         check_datetime=myanmarstocktime
-        print(currentmyanmartimestring, myanmarstocktime, forshow_set, forshow_totalvalue, result, marketstatus)
+        print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
         temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
         datalist.append(temp)
     elif(myanmarstocktime!=check_datetime):
-        print(currentmyanmartimestring, myanmarstocktime, forshow_set, forshow_totalvalue, result, marketstatus)
+        print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
         temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
         datalist.append(temp)
 

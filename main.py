@@ -7,15 +7,19 @@ import os
 from threading import Thread
 app = FastAPI()
 def thread_fun():
-    #os.system("venv\Scripts\python lottery_result.py")
-    os.system("python lottery_result.py")
+    os.system("venv\Scripts\python lottery_result.py")
+    #os.system("python lottery_result.py")
 
-@app.get("/")
+@app.get("/insert")
 async def root():
 
     thread=Thread(target=thread_fun)
     thread.start()
     return {"message": "Success"}
+
+@app.get("/")
+async def root():
+    return {"welcome": "page"}
 
 
 @app.get("/result/{name}")

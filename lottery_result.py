@@ -98,5 +98,5 @@ if __name__ == '__main__':
            break
         currenttime = datetime.datetime.now()
         time.sleep(0.5)
-    filename = "marketclose"
     transfertofile()
+    print("finished Task")

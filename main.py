@@ -6,7 +6,7 @@ import os
 from threading import Thread
 app = FastAPI()
 def thread_fun():
-    os.system("venv\Scripts\python hello2.py")
+    os.system("python hello2.py")
 
 @app.get("/")
 async def root():

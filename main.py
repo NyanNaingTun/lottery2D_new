@@ -6,11 +6,12 @@ import os
 from threading import Thread
 app = FastAPI()
 def thread_fun():
-    os.system("python hello2.py")
+    os.system("venv\Scripts\python lottery_result.py")
+   #os.system("python lottery_result.py")
 
 @app.get("/")
 async def root():
-    #time.sleep(180)
+
     thread=Thread(target=thread_fun)
     thread.start()
     return {"message": "Hello World2 "}

@@ -3,8 +3,28 @@ import datetime
 import time,json
 import urllib.request
 check_datetime= datetime.datetime.now()
+datalist=[]
+filename="marketclose"
+def savefile(filename,data):
+    with open(filename,"w")as outfile:
+        outfile.write(data)
+
+
+
+def transfertofile():
+    list={filename:datalist}
+    jsonfomat = json.dumps(list, indent=4)
+    savefile(filename+'.json', jsonfomat)
+
+
+def save_result(param):
+    pass
+
+
 def viewdata():
+    global filename
     global check_datetime
+    global datalist
     url = "https://api.settrade.com/api/market/SET/info"
     hdr = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
@@ -31,24 +51,51 @@ def viewdata():
     myanmarstocktime = formatedstockdatetime - datetime.timedelta(hours=0, minutes=30)
     currentmyanmartime=datetime.datetime.now()
     currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
+
     if(check_datetime==None):
         check_datetime=myanmarstocktime
         print(currentmyanmartimestring, myanmarstocktime, forshow_set, forshow_totalvalue, result, marketstatus)
-
+        temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
+        datalist.append(temp)
     elif(myanmarstocktime!=check_datetime):
         print(currentmyanmartimestring, myanmarstocktime, forshow_set, forshow_totalvalue, result, marketstatus)
+        temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
+        datalist.append(temp)
+
+    if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,31,0)):
+        save_result("9am")
+        filename="9am"
+        return True
+    elif (myanmarstocktime.time() <= datetime.time(12, 2, 0)):
+        save_result("12pm")
+        filename = "12pm"
+        return True
+    elif (myanmarstocktime.time() <= datetime.time(2, 1, 0)):
+        filename = "2pm"
+        save_result("2pm")
+    elif (myanmarstocktime.time() <= datetime.time(16, 31, 0)):
+        filename = "4pm"
+        save_result("4pm")
+    else:
+        filename = "marketclose"
+        save_result("marketclose")
+
     if (marketstatus == 'Closed'or marketstatus == ''):
         return True
 
+
 if __name__ == '__main__':
+    filename = "marketclose"
     currenttime = datetime.datetime.now()
     check_datetime = None
     stoptime=currenttime+datetime.timedelta(hours=0, minutes=3)
-
+    datalist=[]
     while currenttime<stoptime:
 
         timestop=viewdata()
-        #if(timestop==True):
-         #   break
+        if(timestop==True):
+           break
         currenttime = datetime.datetime.now()
         time.sleep(0.5)
+    filename = "marketclose"
+    transfertofile()

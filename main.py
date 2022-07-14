@@ -1,3 +1,4 @@
+import json
 import time
 
 import uvicorn
@@ -14,13 +15,17 @@ async def root():
 
     thread=Thread(target=thread_fun)
     thread.start()
-    return {"message": "Hello World2 "}
+    return {"message": "Success"}
 
 
-@app.get("/hello/{name}")
+@app.get("/result/{name}")
 async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
+    if(name=='marketclose'or name=='9am'or name=='12pm'or name=='2pm'or name=='4pm'):
+        f=open(name+'.json', "r")
+        data=json.loads(f.read())
+        return data
+    else:
+        return {"url":["/result/marketclose","/result/9am","/result/12pm","/result/2pm","/result/4pm"]}
 
 
 

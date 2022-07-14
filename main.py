@@ -2,14 +2,18 @@ import time
 
 import uvicorn
 from fastapi import FastAPI
-
+import os
+from threading import Thread
 app = FastAPI()
-
+def thread_fun():
+    os.system("venv\Scripts\python hello2.py")
 
 @app.get("/")
 async def root():
-    time.sleep(180)
-    return {"message": "Hello World "}
+    #time.sleep(180)
+    thread=Thread(target=thread_fun)
+    thread.start()
+    return {"message": "Hello World2 "}
 
 
 @app.get("/hello/{name}")

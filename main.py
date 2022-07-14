@@ -11,8 +11,7 @@ def thread_fun():
     os.system("python lottery_result.py")
 
 @app.get("/insert")
-async def root():
-
+async def insert():
     thread=Thread(target=thread_fun)
     thread.start()
     return {"message": "Success"}

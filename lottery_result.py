@@ -5,8 +5,9 @@ import urllib.request
 check_datetime= datetime.datetime.now()
 datalist=[]
 filename="marketclose"
-def savefile(filename,data):
-    with open(filename,"w")as outfile:
+
+def savefile(file_name,data):
+    with open(file_name,"w")as outfile:
         outfile.write(data)
 
 
@@ -14,6 +15,7 @@ def savefile(filename,data):
 def transfertofile():
     list={filename:datalist}
     jsonfomat = json.dumps(list, indent=4)
+    print(filename+'.json')
     savefile(filename+'.json', jsonfomat)
 
 
@@ -67,14 +69,14 @@ def viewdata():
         save_result("9am")
         filename="9am"
         return True
-    elif (myanmarstocktime.time() <= datetime.time(12, 2, 0)):
+    elif (datetime.time(9,31,0)<myanmarstocktime.time() <= datetime.time(12, 2, 0)):
         save_result("12pm")
         filename = "12pm"
         return True
-    elif (myanmarstocktime.time() <= datetime.time(2, 1, 0)):
+    elif (datetime.time(12, 2, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
         filename = "2pm"
         save_result("2pm")
-    elif (myanmarstocktime.time() <= datetime.time(16, 31, 0)):
+    elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 31, 0)):
         filename = "4pm"
         save_result("4pm")
     else:

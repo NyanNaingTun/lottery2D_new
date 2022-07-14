@@ -50,7 +50,7 @@ def viewdata():
     formatedstockdatetime = datetime.datetime.strptime(stockdatetime, datetimeformat)
     myanmarstocktime = formatedstockdatetime - datetime.timedelta(hours=0, minutes=30)
     utctimezone=datetime.datetime.utcnow()
-    currentmyanmartime=utctimezone
+    currentmyanmartime=utctimezone+datetime.timedelta(hours=6, minutes=30)
     currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
 
     if(check_datetime==None):

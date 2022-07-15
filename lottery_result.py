@@ -105,6 +105,7 @@ if __name__ == '__main__':
     while currenttime<stoptime:
 
         timestop=viewdata()
+        print("t=", timestop)
         if(timestop==True):
            break
         currenttime = datetime.datetime.now()

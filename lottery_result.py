@@ -90,8 +90,10 @@ def viewdata():
 
         if (marketstatus == 'Closed'or marketstatus == ''):
             return True
+        return False
     except Exception as e:
         print(e)
+        return False
 
 
 if __name__ == '__main__':

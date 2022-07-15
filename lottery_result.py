@@ -66,6 +66,7 @@ def viewdata():
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
             datalist.append(temp)
         elif(myanmarstocktime!=check_datetime):
+            check_datetime=myanmarstocktime
             print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
             datalist.append(temp)

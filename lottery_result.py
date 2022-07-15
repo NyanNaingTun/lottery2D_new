@@ -87,7 +87,7 @@ def viewdata():
         else:
             filename = "marketclose"
             save_result("marketclose")
-
+        print("m-",marketstatus)
         if (marketstatus == 'Closed'or marketstatus == ''):
             return True
         return False

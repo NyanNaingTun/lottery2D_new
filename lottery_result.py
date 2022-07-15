@@ -82,7 +82,7 @@ def viewdata():
         elif (datetime.time(12, 3, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
             filename = "2pm"
             save_result("2pm")
-        elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 31, 0)):
+        elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 32, 0)):
             filename = "4pm"
             save_result("4pm")
         else:

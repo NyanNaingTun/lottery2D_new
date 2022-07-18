@@ -23,8 +23,7 @@ def transfertofile():
     print(filename+'.json')
     savefile(filename+'.json', jsonfomat)
 
-def save_result(param):
-    pass
+
 
 
 def viewdata():
@@ -66,35 +65,27 @@ def viewdata():
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
             datalist.append(temp)
         elif(myanmarstocktime!=check_datetime):
-            check_datetime=myanmarstocktime
             print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
             datalist.append(temp)
 
         if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,31,0)):
-            save_result("9am")
             filename="9am"
-            
-        elif (datetime.time(9,31,0)<myanmarstocktime.time() <= datetime.time(12, 3, 0)):
-            save_result("12pm")
+            return True
+        elif (datetime.time(9,31,0)<myanmarstocktime.time() <= datetime.time(12, 2, 0)):
             filename = "12pm"
-            
-        elif (datetime.time(12, 3, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
+            return True
+        elif (datetime.time(12, 2, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
             filename = "2pm"
-            save_result("2pm")
-        elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 32, 0)):
+        elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 31, 0)):
             filename = "4pm"
-            save_result("4pm")
         else:
             filename = "marketclose"
-            save_result("marketclose")
-        print("m-",marketstatus)
+
         if (marketstatus == 'Closed'or marketstatus == ''):
             return True
-        return False
     except Exception as e:
         print(e)
-        return False
 
 
 if __name__ == '__main__':
@@ -106,7 +97,6 @@ if __name__ == '__main__':
     while currenttime<stoptime:
 
         timestop=viewdata()
-        print("t=", timestop)
         if(timestop==True):
            break
         currenttime = datetime.datetime.now()

@@ -7,6 +7,7 @@ import os
 import datetime
 from threading import Thread
 app = FastAPI()
+compareservertime=datetime.datetime.now()
 def thread_fun():
     #os.system("venv\Scripts\python lottery_result.py")
     os.system("python lottery_result.py")
@@ -21,18 +22,18 @@ async def insert():
 async def root():
     return {"welcome": "page"}
 
-def excesstime(define_time,compareservertime):
+def excesstime(define_time):
     if(define_time=='9am'):
-        if(compareservertime.time>datetime.time(9,30,0)):
+        if(compareservertime.time()> datetime.time(9,30,0)):
             return True
     elif(define_time=='12pm'):
-        if (compareservertime.time > datetime.time(12, 1,0)):
+        if (compareservertime.time() > datetime.time(12, 1,0)):
             return True
     elif(define_time=='2pm'):
-        if(compareservertime.time > datetime.time(14, 0,0)):
+        if(compareservertime.time() > datetime.time(14, 0,0)):
             return True
     elif(define_time=='4pm'):
-        if(compareservertime.time > datetime.time(4, 30,0)):
+        if(compareservertime.time() > datetime.time(4, 30,0)):
             return True
     else:
         return False
@@ -49,15 +50,16 @@ async def say_hello(name: str):
 
 @app.get("/selectedresult/{name}")
 async def say_hello(name: str):
+    global compareservertime
     if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm'):
         tempsetdata = {"temp": "temp"}
         finaldata={"temp": "temp"}
         f = open(name + '.json', "r")
         data = json.loads(f.read())
         for setlist in data[name]:
-            compareservertime = datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
+            compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
             tempsetdata = setlist
-            if (excesstime(name, compareservertime)):
+            if (excesstime(name)):
                 finaldata=tempsetdata
                 break
 

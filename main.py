@@ -61,11 +61,15 @@ async def say_hello(name: str):
         for setlist in data[name]:
             compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
             mmcurrenttime = datetime.datetime.strptime(setlist['mm_currenttime'], "%d/%m/%y %H:%M:%S")
+            print(compareservertime,"---",mmcurrenttime)
+
             if (excesstime(name)):
                 finaldata=olddata
+                print("finaldata---", finaldata)
                 break
             elif(mmcurrenttime.time()> datetime.time(16, 30,10)):
                 finaldata=setlist
+                print("finaldata", "else---", finaldata)
                 break
             olddata=setlist
 

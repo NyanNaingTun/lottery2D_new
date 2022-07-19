@@ -60,13 +60,19 @@ def viewdata():
         currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
 
         if(check_datetime==None):
-            check_datetime=myanmarstocktime
+            print("start")
+            print(check_datetime)
+            print(myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"))
             print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
+            check_datetime=myanmarstocktime
             datalist.append(temp)
         elif(myanmarstocktime!=check_datetime):
+            print(check_datetime)
+            print(myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"))
             print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
             temp={"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus}
+            check_datetime = myanmarstocktime
             datalist.append(temp)
 
         if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,31,0)):

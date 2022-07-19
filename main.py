@@ -33,7 +33,7 @@ def excesstime(define_time):
         if(compareservertime.time() > datetime.time(14, 0,0)):
             return True
     elif(define_time=='4pm'):
-        if(compareservertime.time() > datetime.time(4, 30,0)):
+        if(compareservertime.time() > datetime.time(16, 30,0)):
             return True
     else:
         return False
@@ -54,14 +54,17 @@ async def say_hello(name: str):
     if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm'):
         tempsetdata = {"temp": "temp"}
         finaldata={"temp": "temp"}
+        olddata={"temp": "temp"}
         f = open(name + '.json', "r")
         data = json.loads(f.read())
+
         for setlist in data[name]:
             compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
-            tempsetdata = setlist
+
             if (excesstime(name)):
-                finaldata=tempsetdata
+                finaldata=olddata
                 break
+            olddata=setlist
 
         return {name+"_result":finaldata,"datalist":data}
     else:

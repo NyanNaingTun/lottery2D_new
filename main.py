@@ -6,6 +6,7 @@ from fastapi import FastAPI
 import os
 import datetime
 from threading import Thread
+import pymongo
 app = FastAPI()
 compareservertime=datetime.datetime.now()
 def thread_fun():
@@ -20,7 +21,9 @@ async def insert():
 
 @app.get("/")
 async def root():
-    return {"welcome": "page"}
+    client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
+    mydb = client.lottery
+    return client.list_database_names()
 
 def excesstime(define_time):
     if(define_time=='9am'):

@@ -24,12 +24,6 @@ async def root():
     client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
     mydb = client.lottery
     collection2D=mydb.l_2d
-    mydict = {"_id": "01", "name": "ffff", "address": "Lowstreet 27"}
-    try:
-        x = collection2D.insert_one(mydict)
-    except pymongo.errors.DuplicateKeyError as de:
-        del mydict["_id"]
-        x = collection2D.update_one({"_id":"01"},{"$set":mydict})
     return client.list_database_names()
 
 def excesstime(define_time):
@@ -61,29 +55,34 @@ async def say_hello(name: str):
 @app.get("/selectedresult/{name}")
 async def say_hello(name: str):
     global compareservertime
-    if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm'):
+    if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm' or name=='marketclose'):
+
         tempsetdata = {"temp": "temp"}
         finaldata={"temp": "temp"}
         olddata={"temp": "temp"}
         f = open(name + '.json', "r")
-        data = json.loads(f.read())
+        client = pymongo.MongoClient(
+            "mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
+        mydb = client.lottery
+        collection2D = mydb.l_2d
+        for resultlist in collection2D.find({"_id":name+".json"}):
 
-        for setlist in data[name]:
-            compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
-            mmcurrenttime = datetime.datetime.strptime(setlist['mm_currenttime'], "%d/%m/%y %H:%M:%S")
-            print(compareservertime,"---",mmcurrenttime)
+            for setlist in resultlist['results']:
+                compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
 
-            if (excesstime(name)):
-                finaldata=olddata
-                print("finaldata---", finaldata)
-                break
-            elif(mmcurrenttime.time()> datetime.time(16, 30,10)):
-                finaldata=setlist
-                print("finaldata", "else---", finaldata)
-                break
-            olddata=setlist
+                mmcurrenttime = datetime.datetime.strptime(setlist['mm_currenttime'], "%d/%m/%y %H:%M:%S")
+                print(compareservertime,"---",mmcurrenttime)
 
-        return {name+"_result":finaldata,"datalist":data}
+                if (excesstime(name)):
+                    finaldata=olddata
+                    print("finaldata---", finaldata)
+                    break
+                elif(mmcurrenttime.time()> datetime.time(16, 30,10)):
+                    finaldata=setlist
+                    print("finaldata", "else---", finaldata)
+                    break
+                olddata=setlist
+        return {name+"_result":finaldata,"datalist":resultlist['results']}
     else:
         return {"url": [ "/selectedresult/9am", "/selectedresult/12pm", "/selectedresult/2pm", "/selectedresult/4pm"]}
 

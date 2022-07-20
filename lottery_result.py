@@ -15,21 +15,19 @@ def savefile(file_name,data):
     if(x.matched_count==0):
         result = {"_id": file_name, "results": data}
         collection2D.insert_one(result)
-    with open(file_name,"w")as outfile:
-        outfile.write(data)
+
 
 
 
 def transfertofile():
     if(len(datalist)==0):
-        print("no data")
-        list={filename:"no data"}
+        list={"no data"}
     else:
-        list={filename:datalist}
+        list=datalist
 
     jsonfomat = json.dumps(list, indent=4)
     print(filename+'.json')
-    savefile(filename+'.json', jsonfomat)
+    savefile(filename+'.json', list)
 
 
 

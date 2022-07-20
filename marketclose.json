@@ -1,11 +1,11 @@
 {
     "marketclose": [
         {
-            "stocktime_mm": "15/07/22 01:11:16",
-            "mm_currenttime": "15/07/22 01:11:18",
-            "set": "1536.82",
-            "forshow_totalvalue": "61695.41",
-            "result": "25",
+            "stocktime_mm": "20/07/22 22:56:53",
+            "mm_currenttime": "20/07/22 22:56:48",
+            "set": "1539.32",
+            "forshow_totalvalue": "57500.11",
+            "result": "20",
             "marketstatus": "Closed"
         }
     ]

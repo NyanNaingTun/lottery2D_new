@@ -23,6 +23,13 @@ async def insert():
 async def root():
     client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
     mydb = client.lottery
+    collection2D=mydb.l_2d
+    mydict = {"_id": "01", "name": "ffff", "address": "Lowstreet 27"}
+    try:
+        x = collection2D.insert_one(mydict)
+    except pymongo.errors.DuplicateKeyError as de:
+        del mydict["_id"]
+        x = collection2D.update_one({"_id":"01"},{"$set":mydict})
     return client.list_database_names()
 
 def excesstime(define_time):

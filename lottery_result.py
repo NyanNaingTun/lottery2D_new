@@ -2,11 +2,19 @@
 import datetime
 import time,json
 import urllib.request
+import pymongo
 check_datetime= datetime.datetime.now()
 datalist=[]
 filename="marketclose"
 
 def savefile(file_name,data):
+    client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
+    mydb = client.lottery
+    collection2D = mydb.l_2d
+    x=collection2D.update_one({"_id": file_name}, {"$set":{"results":data}})
+    if(x.matched_count==0):
+        result = {"_id": file_name, "results": data}
+        collection2D.insert_one(result)
     with open(file_name,"w")as outfile:
         outfile.write(data)
 

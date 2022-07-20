@@ -55,7 +55,7 @@ async def say_hello(name: str):
 @app.get("/selectedresult/{name}")
 async def say_hello(name: str):
     global compareservertime
-    if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm' or name=='marketclose'):
+    if ( name == '9am' or name == '12pm' or name == '2pm' or name == '4pm'):
 
         tempsetdata = {"temp": "temp"}
         finaldata={"temp": "temp"}

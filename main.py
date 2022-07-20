@@ -66,7 +66,6 @@ async def say_hello(name: str):
         mydb = client.lottery
         collection2D = mydb.l_2d
         for resultlist in collection2D.find({"_id":name+".json"}):
-
             for setlist in resultlist['results']:
                 compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
 
@@ -82,7 +81,8 @@ async def say_hello(name: str):
                     print("finaldata", "else---", finaldata)
                     break
                 olddata=setlist
-        return {name+"_result":finaldata,"datalist":resultlist['results']}
+            return {name+"_result":finaldata,"datalist":resultlist['results']}
+        return {"result": "no Record"}
     else:
         return {"url": [ "/selectedresult/9am", "/selectedresult/12pm", "/selectedresult/2pm", "/selectedresult/4pm"]}
 

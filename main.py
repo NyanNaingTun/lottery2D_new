@@ -78,11 +78,14 @@ async def say_hello(name: str):
                     mydb.lottery2D.insert_one(record)
                     print("finaldata---", finaldata)
                     break
-                elif(mmcurrenttime.time()> datetime.time(16, 30,10)):
+                if(name == '4pm'):
                     finaldata=setlist
                     print("finaldata", "else---", finaldata)
-                    break
                 olddata=setlist
+            if(name == '4pm'):
+                record = {"Result_For": name, "stocktime_mm": finaldata['stocktime_mm'], "SET": finaldata["set"],
+                          "Total_Value": finaldata["forshow_totalvalue"], "Result": finaldata["result"]}
+                mydb.lottery2D.insert_one(record)
             return {name+"_result":finaldata,"datalist":resultlist['results']}
         return {"result": "no Record"}
     else:

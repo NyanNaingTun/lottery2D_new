@@ -81,13 +81,13 @@ def viewdata():
             check_datetime = myanmarstocktime
             datalist.append(temp)
 
-        if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,31,0)):
+        if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,32,0)):
             filename="9am"
         elif (datetime.time(9,31,0)<myanmarstocktime.time() <= datetime.time(12, 4, 0)):
             filename = "12pm"
-        elif (datetime.time(12, 4, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
+        elif (datetime.time(12, 4, 0)<myanmarstocktime.time() <= datetime.time(14, 3, 0)):
             filename = "2pm"
-        elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 31, 0)):
+        elif (datetime.time(14, 3, 0)<myanmarstocktime.time() <= datetime.time(16, 32, 0)):
             filename = "4pm"
         else:
             filename = "marketclose"

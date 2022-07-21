@@ -83,10 +83,8 @@ def viewdata():
 
         if(datetime.time(9,28,00)<myanmarstocktime.time()<=datetime.time(9,31,0)):
             filename="9am"
-            return True
         elif (datetime.time(9,31,0)<myanmarstocktime.time() <= datetime.time(12, 2, 0)):
             filename = "12pm"
-            return True
         elif (datetime.time(12, 2, 0)<myanmarstocktime.time() <= datetime.time(14, 1, 0)):
             filename = "2pm"
         elif (datetime.time(14, 1, 0)<myanmarstocktime.time() <= datetime.time(16, 31, 0)):
@@ -98,7 +96,7 @@ def viewdata():
             return True
     except Exception as e:
         print(e)
-
+    return False
 
 if __name__ == '__main__':
     filename = "marketclose"

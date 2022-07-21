@@ -21,9 +21,8 @@ async def insert():
 
 @app.get("/")
 async def root():
-    client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
-    mydb = client.lottery
-    collection2D=mydb.l_2d
+    client = pymongo.MongoClient(
+        "mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
     return client.list_database_names()
 
 def excesstime(define_time):
@@ -65,6 +64,7 @@ async def say_hello(name: str):
             "mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
         mydb = client.lottery
         collection2D = mydb.l_2d
+
         for resultlist in collection2D.find({"_id":name+".json"}):
             for setlist in resultlist['results']:
                 compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
@@ -74,6 +74,8 @@ async def say_hello(name: str):
 
                 if (excesstime(name)):
                     finaldata=olddata
+                    record={"Result_For":name,"stocktime_mm":finaldata['stocktime_mm'],"SET":finaldata["set"],"Total_Value":finaldata["forshow_totalvalue"],"Result":finaldata["result"]}
+                    mydb.lottery2D.insert_one(record)
                     print("finaldata---", finaldata)
                     break
                 elif(mmcurrenttime.time()> datetime.time(16, 30,10)):

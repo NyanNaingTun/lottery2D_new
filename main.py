@@ -13,11 +13,47 @@ def thread_fun():
     #os.system("venv\Scripts\python lottery_result.py")
     os.system("python lottery_result.py")
 
+def thread_12pm_fun():
+    os.system("python lottery_result_new.py lessthanequal  12:01:00")
+
+def thread_4pm_fun():
+    os.system("python lottery_result_new.py lessthanequal 16:30:00")
+
 @app.get("/insert")
 async def insert():
     thread=Thread(target=thread_fun)
     thread.start()
     return {"message": "Success"}
+
+@app.get("/insert_12pm")
+async def insert_12pm():
+    utctimezone = datetime.datetime.utcnow()
+    currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
+    changedtime=currentmyanmartime.replace(hour=12,minute=1,second=0)
+    subtime=changedtime-currentmyanmartime
+    if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
+        thread = Thread(target=thread_12pm_fun)
+        thread.start()
+        return {"message": "Thread Run Success"}
+    else:
+        return {"Error": "This function only work between 180s to 5s before 12:01"}
+
+
+
+@app.get("/insert/4pm")
+async def insert_4pm():
+    utctimezone = datetime.datetime.utcnow()
+    currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
+    changedtime=currentmyanmartime.replace(hour=16,minute=30,second=0)
+    subtime=changedtime-currentmyanmartime
+    if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
+        thread = Thread(target=thread_4pm_fun)
+        thread.start()
+        return {"message": "Thread Run Success"}
+    else:
+        return {"Error": "This function only work between 180s to 5s before 16:30"}
+
+
 
 @app.get("/")
 async def root():
@@ -68,7 +104,6 @@ async def say_hello(name: str):
         for resultlist in collection2D.find({"_id":name+".json"}):
             for setlist in resultlist['results']:
                 compareservertime=datetime.datetime.strptime(setlist['stocktime_mm'], "%d/%m/%y %H:%M:%S")
-
                 mmcurrenttime = datetime.datetime.strptime(setlist['mm_currenttime'], "%d/%m/%y %H:%M:%S")
                 print(compareservertime,"---",mmcurrenttime)
 

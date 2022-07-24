@@ -40,7 +40,7 @@ async def insert_12pm():
 
 
 
-@app.get("/insert/4pm")
+@app.get("/insert_4pm")
 async def insert_4pm():
     utctimezone = datetime.datetime.utcnow()
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)

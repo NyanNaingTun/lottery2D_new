@@ -13,11 +13,11 @@ def thread_fun():
     #os.system("venv\Scripts\python lottery_result.py")
     os.system("python lottery_result.py")
 
-def thread_12pm_fun():
-    os.system("python lottery_result_new.py lessthanequal  12:01:00")
+def thread_12pm_fun(wanted_time):
+    os.system("python lottery_result_new.py lessthanequal "+wanted_time)
 
-def thread_4pm_fun():
-    os.system("python lottery_result_new.py lessthanequal 16:30:00")
+def thread_4pm_fun(wanted_time):
+    os.system("python lottery_result_new.py lessthanequal " + wanted_time)
 
 @app.get("/insert")
 async def insert():
@@ -30,9 +30,11 @@ async def insert_12pm():
     utctimezone = datetime.datetime.utcnow()
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
     changedtime=currentmyanmartime.replace(hour=12,minute=1,second=0)
+    wanted_time=changedtime.strftime("%H:%M:%S")
     subtime=changedtime-currentmyanmartime
+
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
-        thread = Thread(target=thread_12pm_fun)
+        thread = Thread(target=thread_12pm_fun(wanted_time))
         thread.start()
         return {"message": "Thread Run Success"}
     else:
@@ -45,9 +47,10 @@ async def insert_4pm():
     utctimezone = datetime.datetime.utcnow()
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
     changedtime=currentmyanmartime.replace(hour=16,minute=30,second=0)
+    wanted_time=changedtime.strftime("%H:%M:%S")
     subtime=changedtime-currentmyanmartime
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
-        thread = Thread(target=thread_4pm_fun)
+        thread = Thread(target=thread_4pm_fun(wanted_time))
         thread.start()
         return {"message": "Thread Run Success"}
     else:

@@ -11,12 +11,11 @@ operator=""
 
 
 def transfertofile():
-
-    print(catch_data)
-    client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
-    mydb = client.lottery
-    collection2D = mydb.lottery_2D
-    collection2D.insert_one(catch_data)
+    if(catch_data!=None):
+        client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
+        mydb = client.lottery
+        collection2D = mydb.lottery_2D
+        collection2D.insert_one(catch_data)
 
 
 def checkand_add_data(myanmarstocktime,data):
@@ -44,7 +43,6 @@ def collecteddata():
         data = json.loads(response.read().decode(response.info().get_param('charset') or 'utf-8'))
 
         marketstatus = data['market_status']
-        marketstatus=None
         utctimezone = datetime.datetime.utcnow()
         currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
         currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
@@ -84,10 +82,12 @@ def collecteddata():
 
 if __name__ == '__main__':
     try:
+
         operator=sys.argv[1]
         time_str=sys.argv[2]
 
         time_for_catch=datetime.datetime.strptime(time_str,"%H:%M:%S")
+
         currenttime = datetime.datetime.now()
         check_datetime = None
         stoptime=currenttime+datetime.timedelta(hours=0, minutes=4)

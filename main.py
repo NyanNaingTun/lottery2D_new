@@ -95,7 +95,7 @@ async def say_hello(name: str):
         tempsetdata = {"temp": "temp"}
         finaldata={"temp": "temp"}
         olddata={"temp": "temp"}
-        f = open(name + '.json', "r")
+
         client = pymongo.MongoClient(
             "mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
         mydb = client.lottery

@@ -2,6 +2,9 @@ import json
 import time
 
 import uvicorn
+
+
+
 from fastapi import FastAPI
 import os
 import datetime
@@ -9,6 +12,7 @@ from threading import Thread
 import pymongo
 app = FastAPI()
 compareservertime=datetime.datetime.now()
+
 def thread_fun():
     #os.system("venv\Scripts\python lottery_result.py")
     os.system("python lottery_result.py")
@@ -17,6 +21,9 @@ def thread_12pm_fun(wanted_time):
     os.system("python lottery_result_new.py lessthanequal "+wanted_time)
 
 def thread_4pm_fun(wanted_time):
+    os.system("python lottery_result_new.py lessthanequal " + wanted_time)
+
+def thread_9pm_fun(wanted_time):
     os.system("python lottery_result_new.py lessthanequal " + wanted_time)
 
 @app.get("/insert")
@@ -41,6 +48,20 @@ async def insert_12pm():
         return {"Error": "This function only work between 180s to 5s before 12:01"}
 
 
+@app.get("/insert_9am")
+async def insert_9am():
+    utctimezone = datetime.datetime.utcnow()
+    currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
+    changedtime=currentmyanmartime.replace(hour=9,minute=30,second=0)
+    wanted_time=changedtime.strftime("%H:%M:%S")
+    print(wanted_time)
+    subtime=changedtime-currentmyanmartime
+    if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
+        thread = Thread(target=thread_9pm_fun(wanted_time))
+        thread.start()
+        return {"message": "Thread Run Success"}
+    else:
+        return {"Error": "This function only work between 180s to 5s before 16:30"}
 
 @app.get("/insert_4pm")
 async def insert_4pm():
@@ -55,7 +76,6 @@ async def insert_4pm():
         return {"message": "Thread Run Success"}
     else:
         return {"Error": "This function only work between 180s to 5s before 16:30"}
-
 
 
 @app.get("/")
@@ -88,6 +108,9 @@ async def say_hello(name: str):
         return data
     else:
         return {"url":["/result/marketclose","/result/9am","/result/12pm","/result/2pm","/result/4pm"]}
+
+
+
 
 
 @app.get("/selectedresult/{name}")

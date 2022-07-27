@@ -4,18 +4,26 @@ import sys
 import time,json
 import urllib.request
 import pymongo
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 check_datetime= datetime.datetime.now()
 catch_data=None
 time_for_catch=None
 operator=""
-
-
+time_str =""
+cred = credentials.Certificate('lottery_firebase.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+lottery_2d_collection = db.collection('lottery_2d')
 def transfertofile():
     if(catch_data!=None):
         client = pymongo.MongoClient("mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/?retryWrites=true&w=majority")
         mydb = client.lottery
         collection2D = mydb.lottery_2D
         collection2D.insert_one(catch_data)
+        if(catch_data['result']!='Market closed'):
+            lottery_2d_collection.document(time_str).set(catch_data)
 
 
 def checkand_add_data(myanmarstocktime,data):
@@ -26,6 +34,13 @@ def checkand_add_data(myanmarstocktime,data):
             return False
         else:
             return True
+
+
+def initial_2d_day():
+    if(time_str=="09:30:00"):
+        lottery_2d_collection.document("12:01:00").set(None)
+        lottery_2d_collection.document("16:30:00").set(None)
+
 
 def collecteddata():
     global catch_data
@@ -54,6 +69,8 @@ def collecteddata():
                               "stocktime_mm": currentmyanmartimestring, "result": "Market closed",
                               "Result_for": time_str}
                 return True
+            else:
+                initial_2d_day()
 
         stockdatetime = data['datetime']
         Raw_set = data['index'][0]['last']

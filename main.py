@@ -1,15 +1,19 @@
 import json
 import time
-
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 import uvicorn
-
-
-
 from fastapi import FastAPI
 import os
 import datetime
 from threading import Thread
 import pymongo
+cred = credentials.Certificate('lottery_firebase.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+lottery_2d_collection = db.collection('lottery_2d')
+
 app = FastAPI()
 compareservertime=datetime.datetime.now()
 
@@ -54,7 +58,7 @@ async def insert_9am():
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
     changedtime=currentmyanmartime.replace(hour=9,minute=30,second=0)
     wanted_time=changedtime.strftime("%H:%M:%S")
-    print(wanted_time)
+
     subtime=changedtime-currentmyanmartime
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
         thread = Thread(target=thread_9pm_fun(wanted_time))
@@ -152,5 +156,10 @@ async def say_hello(name: str):
     else:
         return {"url": [ "/selectedresult/9am", "/selectedresult/12pm", "/selectedresult/2pm", "/selectedresult/4pm"]}
 
-
-
+@app.get("/display")
+async def display():
+    pm12_doc = lottery_2d_collection.document('12:01:00')
+    pm12_data=pm12_doc.get().to_dict()
+    pm4_doc = lottery_2d_collection.document('16:30:00')
+    pm4_data=pm12_doc.get().to_dict()
+    return {"12:01pm":pm12_data,"4:30pm":pm4_data}

@@ -61,7 +61,7 @@ async def insert_9am():
         thread.start()
         return {"message": "Thread Run Success"}
     else:
-        return {"Error": "This function only work between 180s to 5s before 16:30"}
+        return {"Error": "This function only work between 180s to 5s before 9:30"}
 
 @app.get("/insert_4pm")
 async def insert_4pm():

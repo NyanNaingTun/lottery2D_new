@@ -160,7 +160,7 @@ async def say_hello(name: str):
 async def display():
     pm12_doc = lottery_2d_collection.document('12:01:00')
     pm12_data=pm12_doc.get().to_dict()
-    data={}
+    data1={}
     if (pm12_data):
         data1={"result":pm12_data["result"],"Date":pm12_data["readed_date"],"SET":pm12_data["set"],"Total_value":pm12_data["forshow_totalvalue"]}
     pm4_doc = lottery_2d_collection.document('16:30:00')

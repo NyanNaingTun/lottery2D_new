@@ -37,6 +37,7 @@ def checkand_add_data(myanmarstocktime,data):
 
 
 def initial_2d_day():
+    print("reach")
     if(time_str=="09:30:00"):
         lottery_2d_collection.document("12:01:00").set(None)
         lottery_2d_collection.document("16:30:00").set(None)
@@ -63,6 +64,7 @@ def collecteddata():
         currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
 
         if (check_datetime == None):
+
             if (marketstatus == 'Closed' or marketstatus == '' or marketstatus == None):
                 catch_data = {"_id": currentmyanmartime.strftime("%d/%m/%y %H:%M:%S"),
                               "readed_date": currentmyanmartime.strftime("%d/%m/%y"),
@@ -102,13 +104,13 @@ if __name__ == '__main__':
 
         operator=sys.argv[1]
         time_str=sys.argv[2]
-
         time_for_catch=datetime.datetime.strptime(time_str,"%H:%M:%S")
 
         currenttime = datetime.datetime.now()
         check_datetime = None
         stoptime=currenttime+datetime.timedelta(hours=0, minutes=4)
         while currenttime<stoptime:
+
             timestop=collecteddata()
             if(timestop==True):
                break

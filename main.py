@@ -161,5 +161,5 @@ async def display():
     pm12_doc = lottery_2d_collection.document('12:01:00')
     pm12_data=pm12_doc.get().to_dict()
     pm4_doc = lottery_2d_collection.document('16:30:00')
-    pm4_data=pm12_doc.get().to_dict()
+    pm4_data=pm4_doc.get().to_dict()
     return {"12:01pm":pm12_data,"4:30pm":pm4_data}

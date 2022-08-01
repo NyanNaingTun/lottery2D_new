@@ -168,7 +168,7 @@ async def display():
     data2 = {}
     if(pm4_data):
         data={"result":pm4_data["result"],"Date":pm4_data["readed_date"],"SET":pm4_data["set"],"Total_value":pm4_data["forshow_totalvalue"]}
-    return {"12:01pm":data,"4:30pm":pm4_data}
+    return {"12:01pm":data,"4:30pm":data}
 
 @app.get("/displaydetail")
 async def display():

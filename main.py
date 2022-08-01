@@ -162,13 +162,13 @@ async def display():
     pm12_data=pm12_doc.get().to_dict()
     data={}
     if (pm12_data):
-        data={"result":pm12_data["result"],"Date":pm12_data["readed_date"],"SET":pm12_data["set"],"Total_value":pm12_data["forshow_totalvalue"]}
+        data1={"result":pm12_data["result"],"Date":pm12_data["readed_date"],"SET":pm12_data["set"],"Total_value":pm12_data["forshow_totalvalue"]}
     pm4_doc = lottery_2d_collection.document('16:30:00')
     pm4_data=pm4_doc.get().to_dict()
     data2 = {}
     if(pm4_data):
-        data={"result":pm4_data["result"],"Date":pm4_data["readed_date"],"SET":pm4_data["set"],"Total_value":pm4_data["forshow_totalvalue"]}
-    return {"12:01pm":data,"4:30pm":data}
+        data2={"result":pm4_data["result"],"Date":pm4_data["readed_date"],"SET":pm4_data["set"],"Total_value":pm4_data["forshow_totalvalue"]}
+    return {"12:01pm":data1,"4:30pm":data2}
 
 @app.get("/displaydetail")
 async def display():

@@ -116,7 +116,7 @@ async def say_hello(name: str):
 
 
 @app.get("/monthly/{time}")
-async def display(time:str):
+async def monthly(time:str):
     try:
         requestedtime=datetime.datetime.strptime(time,"%m-%Y")
         days_in_month = calendar.monthrange(requestedtime.year, requestedtime.month)[1]
@@ -137,7 +137,8 @@ async def display(time:str):
                     'marketstatus': 1,
                     'Result_for': 1
                 }
-            }, {
+            },
+            {
                 '$match': {
                     'calendar_date': {
                         '$gt': datetime.datetime(requestedtime.year,requestedtime.month,1,00,00,00),
@@ -150,33 +151,103 @@ async def display(time:str):
                             'Result_for': '12:01:00'
                         }
                     ]
-                }
+                    },
+            },
+            {
+                    '$sort': {
+                    'calendar_date': -1
+                    }
             }
+
         ])
         bc=[];
         for r in result:
             if(r["result"]!="Market closed"):
                 i={
-                    r["calendar_date"].strftime("%d/%m/%Y"):{
-                        "time":r["Result_for"],
-                        "set":r["set"],
-                        "forshow_totalvalue":r["forshow_totalvalue"],
-                        "Result":r["result"]
+                    r["calendar_date"].strftime("%d/%m/%Y")+" "+r["Result_for"]:{
+                        "r": "(" + r["result"] + ")",
+                         "s":r["set"],
+                        "v":r["forshow_totalvalue"],
+
                     }
                 }
+                bc.append(i);
             else:
                 i = {
-                    r["calendar_date"].strftime("%d/%m/%Y"): {
-                        "time": r["Result_for"],
-                        "Result": r["result"]
+                    r["calendar_date"].strftime("%d/%m/%Y")+" "+ r["Result_for"]:{
+                        "r":"-"
                     }
                 }
-            bc.append(i);
+                bc.append(i);
+
 
         return bc;
     except Exception as e:
        print(e)
        return {"error":e.__str__()}
+
+@app.get("/monthly_result/{time}")
+async def monthly_result(time: str):
+        try:
+            requestedtime = datetime.datetime.strptime(time, "%m-%Y")
+            days_in_month = calendar.monthrange(requestedtime.year, requestedtime.month)[1]
+            nexttime = requestedtime + datetime.timedelta(days=days_in_month)
+            client = pymongo.MongoClient('mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/test')
+            result = client['lottery']['lottery_2D'].aggregate([
+                {
+                    '$project': {
+                        'calendar_date': {
+                            '$dateFromString': {
+                                'format': '%d/%m/%Y',
+                                'dateString': '$readed_date'
+                            }
+                        },
+                        'set': 1,
+                        'result': 1,
+                        'forshow_totalvalue': 1,
+                        'marketstatus': 1,
+                        'Result_for': 1
+                    }
+                },
+                {
+                    '$match': {
+                        'calendar_date': {
+                            '$gt': datetime.datetime(requestedtime.year, requestedtime.month, 1, 00, 00, 00),
+                            '$lt': datetime.datetime(nexttime.year, nexttime.month, 1, 00, 00, 00)
+                        },
+                        '$or': [
+                            {
+                                'Result_for': '16:30:00'
+                            }, {
+                                'Result_for': '12:01:00'
+                            }
+                        ]
+                    },
+                },
+                {
+                    '$sort': {
+                        'calendar_date': -1
+                    }
+                }
+
+            ])
+            bc = [];
+            for r in result:
+                if (r["result"] != "Market closed"):
+                    i = {
+                        r["calendar_date"].strftime("%d/%m/%Y") + " " + r["Result_for"]:  "<<"+r["result"]+">>"
+                    }
+                    bc.append(i);
+                else:
+                    i = {
+                        r["calendar_date"].strftime("%d/%m/%Y")+" "+ r["Result_for"]:  "-"
+                    }
+                    bc.append(i);
+
+            return bc;
+        except Exception as e:
+            print(e)
+            return {"error": e.__str__()}
 
 
 @app.get("/selectedresult/{name}")

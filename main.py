@@ -159,6 +159,8 @@ async def display(time:str):
                 i={
                     r["calendar_date"].strftime("%d/%m/%Y"):{
                         "time":r["Result_for"],
+                        "set":r["set"],
+                        "forshow_totalvalue":r["forshow_totalvalue"],
                         "Result":r["result"]
                     }
                 }

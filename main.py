@@ -115,7 +115,7 @@ async def say_hello(name: str):
         return {"url":["/result/marketclose","/result/9am","/result/12pm","/result/2pm","/result/4pm"]}
 
 
-@app.get("/allresult/{time}")
+@app.get("/monthly/{time}")
 async def display(time:str):
     try:
         requestedtime=datetime.datetime.strptime(time,"%m-%Y")

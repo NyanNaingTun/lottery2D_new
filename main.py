@@ -114,7 +114,15 @@ async def say_hello(name: str):
         return {"url":["/result/marketclose","/result/9am","/result/12pm","/result/2pm","/result/4pm"]}
 
 
-
+@app.get("/allresult/{time}")
+async def display(time:str):
+    try:
+        requestedtime=datetime.datetime.strptime(time,"%m-%Y");
+        print(requestedtime)
+        return {};
+    except Exception as e:
+        print(e)
+        return {"error":e.__str__()}
 
 
 @app.get("/selectedresult/{name}")

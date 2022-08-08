@@ -16,7 +16,7 @@ firebase_db={
         "Setting":
             {
                 "servertime_format":"%d/%m/%Y %H:%M:%S",
-                "servertime_pattern":"\d{1,2}/\d{1,2}/\d{4} \d{2}:\d{2}:\d{2}",
+                "servertime_pattern":"\\d{1,2}/\\d{1,2}/\\d{4} \\d{2}:\\d{2}:\\d{2}",
 
                 "market_status_for_close":"close",
 
@@ -41,9 +41,9 @@ firebase_db={
         "Setting":
             {
                 "servertime_format": "%Y-%m-%dT%H:%M:%S",
-                "servertime_pattern":"\d{4}-\d{1,2}-\d{1,2}T\d{2}:\d{2}:\d{2}",
+                "servertime_pattern":"\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}",
 
-                "market_status_for_close": "close",
+                "  bb": "close",
 
                 "SET_digit": "1",
                 "SET_represent_digit": "{:.2f}",
@@ -109,6 +109,8 @@ def assign_attribute(urldb):
     readdata(marekt_info,label_market_status,label_servertime,label_set,label_value,label_setting)
 
 if __name__ == '__main__':
+
+
     for urldb in firebase_db["firebase_db"]:
         print(urldb["url"])
         assign_attribute(urldb)

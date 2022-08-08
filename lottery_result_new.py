@@ -61,13 +61,13 @@ def collecteddata():
         marketstatus = data['market_status']
         utctimezone = datetime.datetime.utcnow()
         currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
-        currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%y %H:%M:%S")
+        currentmyanmartimestring = currentmyanmartime.strftime("%d/%m/%Y %H:%M:%S")
 
         if (check_datetime == None):
 
             if (marketstatus == 'Closed' or marketstatus == '' or marketstatus == None):
-                catch_data = {"_id": currentmyanmartime.strftime("%d/%m/%y %H:%M:%S"),
-                              "readed_date": currentmyanmartime.strftime("%d/%m/%y"),
+                catch_data = {"_id": currentmyanmartime.strftime("%d/%m/%Y %H:%M:%S"),
+                              "readed_date": currentmyanmartime.strftime("%d/%m/%Y"),
                               "stocktime_mm": currentmyanmartimestring, "result": "Market closed",
                               "Result_for": time_str}
                 return True
@@ -90,9 +90,9 @@ def collecteddata():
 
         if(check_datetime==None or myanmarstocktime!=check_datetime):
             print(check_datetime)
-            print(myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"))
-            print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
-            data={"_id":currentmyanmartime.strftime("%d/%m/%y %H:%M:%S"),"readed_date":currentmyanmartime.strftime("%d/%m/%y"),"stocktime_mm":myanmarstocktime.strftime("%d/%m/%y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus,"Result_for":time_str}
+            print(myanmarstocktime.strftime("%d/%m/%Y %H:%M:%S"))
+            print(currentmyanmartimestring, myanmarstocktime.strftime("%d/%m/%Y %H:%M:%S"), forshow_set, forshow_totalvalue, result, marketstatus)
+            data={"_id":currentmyanmartime.strftime("%d/%m/%Y %H:%M:%S"),"readed_date":currentmyanmartime.strftime("%d/%m/%Y"),"stocktime_mm":myanmarstocktime.strftime("%d/%m/%Y %H:%M:%S"),"mm_currenttime":currentmyanmartimestring,"set":forshow_set,"forshow_totalvalue":forshow_totalvalue,"result":result,"marketstatus":marketstatus,"Result_for":time_str}
             check_datetime=myanmarstocktime
             return checkand_add_data(myanmarstocktime,data)
     except Exception as e:

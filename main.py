@@ -141,7 +141,7 @@ async def monthly(time:str):
             {
                 '$match': {
                     'calendar_date': {
-                        '$gt': datetime.datetime(requestedtime.year,requestedtime.month,1,00,00,00),
+                        '$gte': datetime.datetime(requestedtime.year,requestedtime.month,1,00,00,00),
                         '$lt': datetime.datetime(nexttime.year,nexttime.month,1,00,00,00)
                     },
                     '$or': [
@@ -191,6 +191,7 @@ async def monthly_result(time: str):
         try:
             requestedtime = datetime.datetime.strptime(time, "%m-%Y")
             days_in_month = calendar.monthrange(requestedtime.year, requestedtime.month)[1]
+
             nexttime = requestedtime + datetime.timedelta(days=days_in_month)
             client = pymongo.MongoClient('mongodb+srv://flame:flame123@lottery.g8kow.mongodb.net/test')
             result = client['lottery']['lottery_2D'].aggregate([
@@ -212,7 +213,7 @@ async def monthly_result(time: str):
                 {
                     '$match': {
                         'calendar_date': {
-                            '$gt': datetime.datetime(requestedtime.year, requestedtime.month, 1, 00, 00, 00),
+                            '$gte': datetime.datetime(requestedtime.year, requestedtime.month, 1, 00, 00, 00),
                             '$lt': datetime.datetime(nexttime.year, nexttime.month, 1, 00, 00, 00)
                         },
                         '$or': [
@@ -237,12 +238,12 @@ async def monthly_result(time: str):
                     i = {
                         r["calendar_date"].strftime("%d/%m/%Y") + " " + r["Result_for"]:  "<<"+r["result"]+">>"
                     }
-                    bc.append(i);
+                    bc.append(i)
                 else:
                     i = {
                         r["calendar_date"].strftime("%d/%m/%Y")+" "+ r["Result_for"]:  "-"
                     }
-                    bc.append(i);
+                    bc.append(i)
 
             return bc;
         except Exception as e:

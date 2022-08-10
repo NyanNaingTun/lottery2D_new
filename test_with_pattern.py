@@ -82,6 +82,7 @@ def print_2d(data_market_status,data_servertime,data_set,data_value,label_settin
 
     #2digit
     print("Result:"+d2_1+":"+d2_2)
+
 def urlload(url):
     req = urllib.request.Request(url)
     response = urllib.request.urlopen(req)
@@ -109,8 +110,6 @@ def assign_attribute(urldb):
     readdata(marekt_info,label_market_status,label_servertime,label_set,label_value,label_setting)
 
 if __name__ == '__main__':
-
-
     for urldb in firebase_db["firebase_db"]:
         print(urldb["url"])
         assign_attribute(urldb)

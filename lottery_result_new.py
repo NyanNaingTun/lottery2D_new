@@ -104,13 +104,12 @@ if __name__ == '__main__':
 
         operator=sys.argv[1]
         time_str=sys.argv[2]
-        time_for_catch=datetime.datetime.strptime(time_str,"%H:%M:%S")
 
+        time_for_catch=datetime.datetime.strptime(time_str,"%H:%M:%S")
         currenttime = datetime.datetime.now()
         check_datetime = None
         stoptime=currenttime+datetime.timedelta(hours=0, minutes=4)
         while currenttime<stoptime:
-
             timestop=collecteddata()
             if(timestop==True):
                break

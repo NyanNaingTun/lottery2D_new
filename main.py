@@ -19,10 +19,13 @@ app = FastAPI()
 compareservertime=datetime.datetime.now()
 
 def thread_fun():
+
     #os.system("venv\Scripts\python lottery_result.py")
     os.system("python lottery_result.py")
 
+
 def thread_12pm_fun(wanted_time):
+
     os.system("python lottery_result_new.py lessthanequal "+wanted_time)
 
 def thread_4pm_fun(wanted_time):
@@ -35,10 +38,11 @@ def thread_9pm_fun(wanted_time):
 async def insert():
     thread=Thread(target=thread_fun)
     thread.start()
-    return {"message": "Success"}
+    return {"load": "Success"}
 
 @app.get("/insert_12pm")
 async def insert_12pm():
+
     utctimezone = datetime.datetime.utcnow()
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
     changedtime=currentmyanmartime.replace(hour=12,minute=1,second=0)
@@ -46,7 +50,7 @@ async def insert_12pm():
     subtime=changedtime-currentmyanmartime
 
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
-        thread = Thread(target=thread_12pm_fun(wanted_time))
+        thread = Thread(target=thread_12pm_fun,args=(wanted_time,))
         thread.start()
         return {"message": "Thread Run Success"}
     else:
@@ -59,10 +63,9 @@ async def insert_9am():
     currentmyanmartime = utctimezone + datetime.timedelta(hours=6, minutes=30)
     changedtime=currentmyanmartime.replace(hour=9,minute=30,second=0)
     wanted_time=changedtime.strftime("%H:%M:%S")
-
     subtime=changedtime-currentmyanmartime
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
-        thread = Thread(target=thread_9pm_fun(wanted_time))
+        thread = Thread(target=thread_9pm_fun,args=(wanted_time,))
         thread.start()
         return {"message": "Thread Run Success"}
     else:
@@ -76,7 +79,7 @@ async def insert_4pm():
     wanted_time=changedtime.strftime("%H:%M:%S")
     subtime=changedtime-currentmyanmartime
     if(subtime.total_seconds()<=180 and subtime.total_seconds()>=5):
-        thread = Thread(target=thread_4pm_fun(wanted_time))
+        thread = Thread(target=thread_4pm_fun,args=(wanted_time,))
         thread.start()
         return {"message": "Thread Run Success"}
     else:
